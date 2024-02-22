@@ -11,7 +11,7 @@ if plt == 'Linux': pathlib.WindowsPath = pathlib.PosixPath
 
 # Download the model file from Google Drive
 url = 'https://drive.google.com/file/d/1E_nwpxAHAru84TkCkSIVztT3WI2ThoBw/view?usp=drive_link'
-output = 'animals_cls.pkl'
+output = "G:\My Drive\animals_cls.pkl"
 gdown.download(url, output, quiet=False)
 
 # title 
