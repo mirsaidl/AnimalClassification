@@ -2,4 +2,3 @@ fastai
 plotly
 pathlib
 gdown
-pickle
