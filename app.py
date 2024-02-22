@@ -11,8 +11,10 @@ if plt == 'Linux': pathlib.WindowsPath = pathlib.PosixPath
 
 # Download the model file from Google Drive
 url = 'https://drive.google.com/file/d/1E_nwpxAHAru84TkCkSIVztT3WI2ThoBw/view?usp=drive_link'
-output = "G:\My Drive\animals_cls.pkl"
+output = "animals_cls.pkl"
 gdown.download(url, output, quiet=False)
+with open('animals_cls.pkl', 'rb') as f:
+        model = pickle.load(f)
 
 # title 
 st.title('Animal Classification Model')
@@ -37,8 +39,8 @@ if file:
     # Image convert
     img = PILImage.create(file)
     # Load the model
-    with open('animals_cls.pkl', 'rb') as f:
-        model = pickle.load(f)
+    #with open('animals_cls.pkl', 'rb') as f:
+     #   model = pickle.load(f)
     pred, pred_id, probs = model.predict(img)
     st.success(f"Prediction: {pred}")
     st.info(f"Probability: {probs[pred_id]*100:.1f}%")
