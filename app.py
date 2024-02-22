@@ -1,20 +1,22 @@
-from fastai.vision.all import *
 import streamlit as st
-import pathlib
-import plotly.express as px
-import platform
 import gdown
 import pickle
+import pathlib
+import plotly.express as px
+from fastai.vision.all import *
 
 plt = platform.system()
-if plt == 'Linux': pathlib.WindowsPath = pathlib.PosixPath
+if plt == 'Linux': 
+    pathlib.WindowsPath = pathlib.PosixPath
 
 # Download the model file from Google Drive
-url = 'https://drive.google.com/file/d/1E_nwpxAHAru84TkCkSIVztT3WI2ThoBw/view?usp=drive_link'
+url = 'https://drive.google.com/uc?id=1E_nwpxAHAru84TkCkSIVztT3WI2ThoBw'
 output = "animals_cls.pkl"
 gdown.download(url, output, quiet=False)
-with open('animals_cls.pkl', 'rb') as f:
-        model = pickle.load(f)
+
+# Load the model
+with open(output, 'rb') as f:
+    model = pickle.load(f)
 
 # title 
 st.title('Animal Classification Model')
@@ -31,25 +33,25 @@ else:
 # uploading
 file = st.file_uploader("Upload picture", type=['png', 'jpeg', 'gif', 'svg'])
 
-
 if file:
-    # image
+    # Display the uploaded image
     st.image(file)
     
-    # Image convert
+    # Convert the uploaded image to PILImage
     img = PILImage.create(file)
-    # Load the model
-    #with open('animals_cls.pkl', 'rb') as f:
-     #   model = pickle.load(f)
+    
+    # Perform prediction with the model
     pred, pred_id, probs = model.predict(img)
+    
+    # Display prediction and probability
     st.success(f"Prediction: {pred}")
     st.info(f"Probability: {probs[pred_id]*100:.1f}%")
 
-    # plotting
+    # Plotting
     fig = px.bar(y=probs*100, x=model.dls.vocab)
     fig.update_layout(
-    yaxis_title="Probability(%)",  # Label for the y-axis
-    xaxis_title="Animals"        # Label for the x-axis
+        yaxis_title="Probability(%)",
+        xaxis_title="Animals"
     )
     st.plotly_chart(fig)
 
@@ -122,7 +124,6 @@ This animal classification model, based on a Convolutional Neural Network, aims 
 
 Model is made by Mirsaid, Instagram: mirsaid_kr
 
-Link for Github repository and project: https://github.com/mirsaidl/DeepLearning_models/tree/main/Animals_classifier
+Link for Github repository and project: [GitHub Repository](https://github.com/mirsaidl/DeepLearning_models/tree/main/Animals_classifier)
 """
 )
-
