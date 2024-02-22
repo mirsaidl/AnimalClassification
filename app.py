@@ -15,9 +15,8 @@ output = "animals_cls.pkl"
 gdown.download(url, output, quiet=False)
 
 # Load the model
-with open(output, 'rb') as f:
-    model = pickle.load(f)
-
+with open('animals_cls.pkl', 'wb') as f:
+    pickle.dump(model, f, protocol=4)
 # title 
 st.title('Animal Classification Model')
 
