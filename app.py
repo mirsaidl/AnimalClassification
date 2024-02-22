@@ -3,16 +3,16 @@ import streamlit as st
 import pathlib
 import plotly.express as px
 import platform
+import gdown
+import pickle
 
 plt = platform.system()
 if plt == 'Linux': pathlib.WindowsPath = pathlib.PosixPath
 
-model_path = "animals_cls.pkl"
-if pathlib.Path(model_path).is_file():
-    model = load_learner(model_path)
-else:
-    st.error("Model file not found. Please make sure 'animals_cls.pkl' is in the same directory.")
-
+# Download the model file from Google Drive
+url = 'https://drive.google.com/file/d/1E_nwpxAHAru84TkCkSIVztT3WI2ThoBw/view?usp=drive_link'
+output = 'animals_cls.pkl'
+gdown.download(url, output, quiet=False)
 
 # title 
 st.title('Animal Classification Model')
@@ -36,25 +36,20 @@ if file:
     
     # Image convert
     img = PILImage.create(file)
+    # Load the model
+    with open('animals_cls.pkl', 'rb') as f:
+        model = pickle.load(f)
+    pred, pred_id, probs = model.predict(img)
+    st.success(f"Prediction: {pred}")
+    st.info(f"Probability: {probs[pred_id]*100:.1f}%")
 
-    # model
-    if model:
-        model = load_learner("animals_cls.pkl")
-        pred, pred_id, probs = model.predict(img)
-        st.success(f"Prediction: {pred}")
-        st.info(f"Probability: {probs[pred_id]*100:.1f}%")
-
-        # plotting
-        fig = px.bar(y=probs*100, x=model.dls.vocab)
-        fig.update_layout(
-        yaxis_title="Probability(%)",  # Label for the y-axis
-        xaxis_title="Animals"        # Label for the x-axis
-        )
-        st.plotly_chart(fig)
-
-
-
-
+    # plotting
+    fig = px.bar(y=probs*100, x=model.dls.vocab)
+    fig.update_layout(
+    yaxis_title="Probability(%)",  # Label for the y-axis
+    xaxis_title="Animals"        # Label for the x-axis
+    )
+    st.plotly_chart(fig)
 
 # Model Description
 st.markdown("""
