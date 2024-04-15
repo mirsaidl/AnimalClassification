@@ -4,8 +4,8 @@ import pathlib
 import plotly.express as px
 import platform
 
-plt = platform.system()
-if plt == 'Linux': pathlib.WindowsPath = pathlib.PosixPath
+temp = pathlib.PosixPath
+pathlib.PosixPath = pathlib.WindowsPath
 
 model_path = "animals_cls.pkl"
 if pathlib.Path(model_path).is_file():
