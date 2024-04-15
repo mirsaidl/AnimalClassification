@@ -1,5 +1,12 @@
-
 ### Animal Classification Model Description
+
+### Preview
+Note: if you want to watch video there is a demo video.
+
+![alt text](pics/welcome.png)
+![alt text](pics/prediction.png)
+![alt text](pics/prob.png)
+
 
 #### Objective:
 The objective of this animal classification model is to accurately classify images of four different animals: dogs, chickens, cows, and lions. The model will be trained on a dataset containing labeled images of these animals to learn patterns and features that distinguish one animal from another.
